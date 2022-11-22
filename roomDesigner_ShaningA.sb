@@ -1,0 +1,197 @@
+'Shaning Ayah 
+'CIS 105-300
+'Room Designer Project
+
+GraphicsWindow.Height = 725
+GraphicsWindow.Width = 1200
+GraphicsWindow.Title = "Room Designer"
+GraphicsWindow.BrushColor = "Black"
+Build_Window()
+
+Sub Build_Window 
+  'clear all images/controls
+  GraphicsWindow.Clear()
+  
+'Setting up the room
+room = FCControls.AddRectangle(685, 500)
+FCControls.Move(room, 500, 200)
+
+'Setting up the labels
+lblColorSelect = FCControls.AddLabel(500, 25, "Step 1 : Choose your room color")
+FCControls.Move(lblColorSelect, 0, 0)
+
+lblSeatingSelect = FCControls.AddLabel(500, 25, "Step 2 : Choose your seatings(up to 2)")
+FCControls.Move(lblSeatingSelect, 0, 100)
+
+lblTableSelect = FCControls.AddLabel(500, 25, "Step 3 : Choose one table")
+FCControls.Move(lblTableSelect, 0, 170)
+
+lblPaintingsSelect = FCControls.AddLabel(500, 25, "Step 4 : Choose one artwork")
+FCControls.Move(lblPaintingsSelect, 0, 470)
+
+
+
+
+
+'************************************************SET UP COLORS*******************************************************
+
+x = 10
+y = 25
+
+rows = 4
+cols = 59
+size = 20
+
+
+For r = 1 To 4
+  For c = 1 To 59
+  
+   GraphicsWindow.BrushColor = GraphicsWindow.GetRandomColor()
+   colors[r][c] = FCControls.AddRectangle(size, size)
+   FCControls.Move(colors[r][c], x, y)
+   FCControls.RegisterMouseDownEvent(colors[r][c], "Choose_Paint_Color")
+   x = x + size
+ EndFor
+ 
+ x = 10
+ y = y + size
+EndFor
+
+
+'************************************************SET UP SEATING*******************************************************
+x = 10
+y = y + 25
+
+
+For i = 1 To 20
+  seating[i] = FCControls.AddImage(Program.Directory + "\seating\" + i + ".gif")
+  FCControls.SetWidth(seating[i], 50)
+  FCControls.Move(seating[i], x, y)
+  FCControls.RegisterMouseDownEvent(seating[i], "Choose_Seating")
+  x = x + 60
+  
+  
+EndFor
+  
+'************************************************SET UP TABLES*******************************************************
+x = 10
+y = y + 70
+For i = 1 To 15  
+  
+  'add image to table array, size and move into position
+  table[i] = FCControls.AddImage(Program.Directory + "\tables\" + i + ".gif")
+  FCControls.SetWidth(table[i], 60)
+  FCControls.Move(table[i], x, y)
+  FCControls.RegisterMouseDownEvent(table[i], "Choose_Table")
+  
+  x = x + 80 'advance x cursor for next table
+  
+  'if x > 400, advance x and y cursors to start a new row
+  If x > 400 Then 
+    y = y + 100
+    x = 10    
+  EndIf
+EndFor
+
+
+'************************************************SET UP ARTWORK*******************************************************
+
+x = 10
+y = y + 20
+For i = 1 To 20  
+  
+  'add image to artwork array, size and move into position
+  artwork[i] = FCControls.AddImage(Program.Directory + "\paintings\" + i + ".jpg")
+  FCControls.SetWidth(artwork[i], 60)
+  FCControls.Move(artwork[i], x, y)
+  FCControls.RegisterMouseDownEvent(artwork[i], "Choose_Artwork")
+  
+  x = x + 80 'advance x cursor for next artwork
+  
+  'if x > 400, advance x and y cursors to start a new row
+  If x > 400 Then 
+    y = y + 50
+    x = 10    
+  EndIf
+EndFor
+
+'************************************************SET UP RESET BUTTON*******************************************************
+
+btnReset = FCControls.AddButton(100, 50, "Reset")
+FCControls.Move(btnReset, 1000, 425)
+FCControls.RegisterMouseDownEvent(btnReset, "Build_Window")
+
+
+'SETTING BACK THE VARIABLE TO "NO"
+    seat1IsChosen = "No"
+    seat2IsChosen = "No"
+    tableIsChosen = "No"
+    artworkIsChoosen = "No"
+
+EndSub
+
+'************************************************FUNCTIONALITY*******************************************************
+ 
+    
+    Sub Choose_Paint_Color
+      
+      selectedColor = FCControls.GetBackground(FCControls.LastEventSource)
+      FCControls.SetBackground(room, selectedColor)
+    EndSub
+    
+    
+    
+    seat1IsChosen = "No"
+    seat2IsChosen = "No"
+    seat1LocX = 550
+    seat2LocX = 850
+    LocY = 500
+    
+    Sub Choose_Seating
+      
+     If seat1IsChosen = "No" Then 
+          FCControls.MoveAsAnimation(FCControls.LastEventSource, seat1LocX, LocY, 500)
+          FCControls.SetWidth(FCControls.LastEventSource, 135)  
+          seat1IsChosen = "Yes"
+        ElseIf seat2IsChosen = "No" Then
+          FCControls.MoveAsAnimation(FCControls.LastEventSource, seat2LocX, LocY, 500)
+          FCControls.SetWidth(FCControls.LastEventSource, 135)
+          seat2IsChosen = "Yes"
+      EndIf
+        
+    EndSub
+      
+      
+    
+    tableIsChosen = "No"
+    
+    Sub Choose_Table
+      
+      If tableIsChosen = "No" Then
+          FCControls.MoveAsAnimation(FCControls.LastEventSource, 690, 550, 500)
+          FCControls.SetWidth(FCControls.LastEventSource, 120)
+      tableIsChosen = "Yes"
+      EndIf
+      
+    EndSub
+    
+    
+    
+    artworkIsChoosen = "No"
+    
+    Sub Choose_Artwork
+      If artworkIsChoosen = "No" Then
+          FCControls.MoveAsAnimation(FCControls.LastEventSource, 690, 350, 500)
+          FCControls.SetWidth(FCControls.LastEventSource, 100)
+          artworkIsChoosen = "Yes"
+      EndIf
+        
+    EndSub
+      
+      
+    
+    
+    'I think I did a great job!  Thank you for that "HUGE HINT"    
+    
+    'Shaning Ayah
+    
